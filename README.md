@@ -1,5 +1,10 @@
 # vue-librenms
 
+## Run Google Chrome without Security
+```bash
+google-chrome-stable --disable-web-security --user-data-dir=$PWD/browser &> /dev/null &
+```
+
 ## Project setup
 ```
 yarn install
