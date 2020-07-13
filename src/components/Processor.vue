@@ -56,16 +56,19 @@ export default {
       })
       .then(response => {
         if (response.data.size === 0) {
-            this.isEmpty = true;
-            this.isLoading = false;
-          } else {
-            let reader = new FileReader();
-            reader.readAsDataURL(response.data);
-            reader.onload = () => {
-              this.processorGraph = reader.result;
-            };
-            this.isEmpty = false;
-            this.isLoading = false;
+          this.isEmpty = true;
+          this.isLoading = false;
+        } else {
+          let reader = new FileReader();
+
+          reader.readAsDataURL(response.data);
+
+          reader.onload = () => {
+            this.processorGraph = reader.result;
+          };
+
+          this.isEmpty = false;
+          this.isLoading = false;
         }
       })
       .catch(e => {

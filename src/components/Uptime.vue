@@ -60,7 +60,9 @@ export default {
             this.isLoading = false;
           } else {
             let reader = new FileReader();
+
             reader.readAsDataURL(response.data);
+
             reader.onload = () => {
               this.uptimeImage = reader.result;
             };

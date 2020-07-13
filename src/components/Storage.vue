@@ -61,10 +61,13 @@ export default {
           this.isLoading = false;
         } else {
           let reader = new FileReader();
+
           reader.readAsDataURL(response.data);
+
           reader.onload = () => {
-          this.storageGraph = reader.result;
-        };
+            this.storageGraph = reader.result;
+          };
+
           this.isEmpty = false;
           this.isLoading = false;
         }

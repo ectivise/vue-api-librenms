@@ -61,13 +61,15 @@ export default {
             this.isLoading = false;
           } else {
             let reader = new FileReader();
+
             reader.readAsDataURL(response.data);
+
             reader.onload = () => {
               this.memoryImage = reader.result;
             };
+
             this.isEmpty = false;
             this.isLoading = false;
-
           }
         })
         .catch(e => {
