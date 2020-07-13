@@ -1,18 +1,29 @@
 <template>
   <div>
-    <h4>Temperature</h4>
-    <fusioncharts
-      :type="type"
-      :width="width"
-      :height="height"
-      :dataFormat="dataFormat"
-      :dataSource="dataSource"
-    ></fusioncharts>
+    <div v-if="isEmpty">
+      <v-alert type="warning">Opps! Graph for Uptime is not available.</v-alert>
+    </div>
+
+    <div v-if="isLoading">
+      <Loading />
+    </div>
+
+    <div v-if="!isLoading">
+      <div v-if="!isEmpty">
+        <fusioncharts
+          :type="type"
+          :width="width"
+          :height="height"
+          :dataFormat="dataFormat"
+          :dataSource="dataSource"
+        ></fusioncharts>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-const dataSource = {
+let dataSource = {
   chart: {
     theme: "fusion",
     baseFont: "Source Sans Pro SemiBold",
@@ -58,18 +69,22 @@ const dataSource = {
   dials: {
     dial: [
       {
-        // value: "20"
-        value: ""
+        value: 0
       }
     ]
   }
 
 };
 
+import Loading from "@/components/Loading";
+
 export default {
   name: "Temperature",
 
+  components: { Loading, },
+
   data: () => ({
+    tmp: 0,
     dataTemp: {},
     type: "angulargauge",
     width: "100%",
@@ -78,42 +93,35 @@ export default {
     dataFormat: "json",
     creditLabel: false,
     dataSource: dataSource,
-    isEmpty: false
+    isEmpty: false,
+    isLoading: false
   }),
 
-  mounted(){
+  mounted() {
     this.fetchTemp();
   },
 
-  // watch:{
-  //   dials: {
-  //    handler(dataTemp, dial) {
-  //      // react to changes
-  //    },
-  //    deep: true
-  // }
-  // },
-
   methods:{
     fetchTemp(){
-      this.axios.get(`/devices/${this.$route.params.hostname}/health/device_temperature`)
-        .then(response => {
-          // this.dataTemp = response.data.graphs
-          let tmp = 0
-          for (var i=0; i<response.data.graphs.length; i++) {
-            this.axios.get(`devices/${this.$route.params.hostname}/health/device_temperature/${response.data.graphs[i].sensor_id}`
-            ).then(resultResp => {
-              if (i > tmp) { tmp = i }
-              else{
-              this.dataTemp(resultResp.data.graphs.sensor_current[0])}
-            });
-          }
-       })
-        .catch(e => {
-          this.errors.push(e);
-        });
-    }
+      this.axios
+      .get(`/devices/${this.$route.params.hostname}/health/device_temperature`)
+      .then(response => {
+        response.data.graphs.forEach(graph => {
+          this.axios
+            .get(`devices/${this.$route.params.hostname}/health/device_temperature/${graph.sensor_id}`)
+            .then(sensorResponse => {
+              const current = sensorResponse.data.graphs[0].sensor_current;
 
+              if (this.tmp < current) {
+                this.tmp = current
+                this.dataSource.dials.dial[0].value = current;
+              }
+            })
+            .catch(error => this.errors.push(error))
+        });
+      })
+      .catch(error => this.errors.push(error))
+    }
   },
 };
 </script>

@@ -78,11 +78,11 @@
         <v-expansion-panels flat v-model="sysTemp" class="my-2">
           <v-expansion-panel>
             <v-expansion-panel-header expand-icon="mdi-menu-down">
-              Temperature :dateStart="dateStart" :dateEnd="dateEnd" />
+              Temperature
             </v-expansion-panel-header>
 
             <v-expansion-panel-content>
-              <Temperature
+              <Temperature />
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
