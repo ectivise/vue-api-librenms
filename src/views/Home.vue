@@ -80,7 +80,6 @@ export default {
         .then(response => {
           let data = response.data.devices;
           this.groupingDevices(data);
-          console.log(response.data.devices)
         })
         .catch(e => {
           this.errors.push(e);

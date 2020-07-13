@@ -1,11 +1,9 @@
 <template>
-  <div class="detail container">
-    <div class="px-1">
-      <Uptime />
-    </div>
-
+  <div class="detail mx-2">
     <v-row no-gutters>
-      <v-col cols="12" md="6" lg="6" class="my-2 px-1">
+      <v-col cols="12" md="4" lg="4" class="fixed-details my-2 px-2">
+        <DateTime :dateStart="dateStart" :dateEnd="dateEnd" v-on:handleDateTime="handleDateTime" />
+
         <v-expansion-panels flat v-model="sysInfo">
           <v-expansion-panel>
             <v-expansion-panel-header expand-icon="mdi-menu-down">
@@ -18,7 +16,7 @@
 
              <v-simple-table class="mt-2">
                 <tbody>
-                  <tr class="my-2"> 
+                  <tr class="my-2">
                     <td width="30%"><strong>IP Address</strong></td>
                     <td class="text-right">{{ device.hostname }}</td>
                   </tr>
@@ -28,7 +26,7 @@
                     <td class="text-right">{{ device.hardware}}</td>
                   </tr>
 
-                  <tr class="my-2"> 
+                  <tr class="my-2">
                     <td width="30%"><strong>Operating System</strong></td>
                     <td class="text-right">{{ device.os }}</td>
                   </tr>
@@ -38,7 +36,7 @@
                     <td class="text-right">{{ device.sysObjectID}}</td>
                   </tr>
 
-                  <tr class="my-2"> 
+                  <tr class="my-2">
                     <td width="30%"><strong>Contact</strong></td>
                     <td class="text-right">{{ device.sysContact }}</td>
                   </tr>
@@ -48,7 +46,7 @@
                     <td class="text-right">{{ timeCounter(device.uptime)}}</td>
                   </tr>
 
-                  <tr class="my-2"> 
+                  <tr class="my-2">
                     <td width="30%"><strong>Location</strong></td>
                     <td class="text-right">{{ device.location }}</td>
                   </tr>
@@ -64,15 +62,27 @@
         </v-expansion-panels>
       </v-col>
 
-      <v-col cols="12" md="6" lg="6" class="my-2 px-1">
-        <v-expansion-panels flat v-model="sysTemp">
+      <v-col cols="12" md="8" lg="8" offset-md="4" offset-lg="4" class="my-2 px-2">
+        <v-expansion-panels flat v-model="sysUptime">
           <v-expansion-panel>
             <v-expansion-panel-header expand-icon="mdi-menu-down">
-              Temperature
+              Uptime
             </v-expansion-panel-header>
 
             <v-expansion-panel-content>
-              <Temperature />
+              <Uptime :dateStart="dateStart" :dateEnd="dateEnd" />
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+        </v-expansion-panels>
+
+        <v-expansion-panels flat v-model="sysTemp" class="my-2">
+          <v-expansion-panel>
+            <v-expansion-panel-header expand-icon="mdi-menu-down">
+              Temperature :dateStart="dateStart" :dateEnd="dateEnd" />
+            </v-expansion-panel-header>
+
+            <v-expansion-panel-content>
+              <Temperature
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
@@ -85,9 +95,7 @@
 
             <v-expansion-panel-content>
               <v-card flat>
-                <!-- <v-card-text> -->
-                  <Processor />
-                <!-- </v-card-text> -->
+                <Processor :dateStart="dateStart" :dateEnd="dateEnd" />
               </v-card>
             </v-expansion-panel-content>
           </v-expansion-panel>
@@ -100,10 +108,8 @@
             </v-expansion-panel-header>
 
             <v-expansion-panel-content>
-              <v-card flat > 
-                <!-- <v-card-text> -->
-                  <Memory />
-                <!-- </v-card-text> -->
+              <v-card flat >
+              <Memory :dateStart="dateStart" :dateEnd="dateEnd" />
               </v-card>
             </v-expansion-panel-content>
           </v-expansion-panel>
@@ -117,9 +123,7 @@
 
             <v-expansion-panel-content>
               <v-card flat>
-                <!-- <v-card-text> -->
-                  <Storage />
-                <!-- </v-card-text> -->
+              <Storage :dateStart="dateStart" :dateEnd="dateEnd" />
               </v-card>
             </v-expansion-panel-content>
           </v-expansion-panel>
@@ -131,6 +135,7 @@
 </template>
 
 <script>
+import DateTime from "@/components/Datetime";
 import Uptime from "@/components/Uptime";
 import Temperature from "@/components/Temperature";
 import Storage from "@/components/Storage";
@@ -147,11 +152,14 @@ export default {
     Storage,
     Memory,
     Processor,
-
+    DateTime
   },
 
   data: () => ({
     device: {},
+    dateStart: new Date().toISOString().substr(0, 10),
+    dateEnd: new Date().toISOString().substr(0, 10),
+    sysUptime: 0,
     sysInfo: 0,
     sysTemp: 0,
     sysStog: 0,
@@ -173,19 +181,27 @@ export default {
           this.errors.push(e);
         });
     },
+
+    handleDateTime(value) {
+      const { dateStart, dateEnd } = value;
+
+      this.dateStart = dateStart;
+      this.dateEnd = dateEnd;
+    },
+
     timeCounter(item) {
       var content = ""
       var t = item
-      
+
       var days = parseInt(t / 86400)
       t = t - (days * 86400)
-      
+
       var hours = parseInt(t / 3600)
       t = t - (hours * 3600)
-    
+
       var minutes = parseInt(t / 60)
       t = t - (minutes * 60)
-    
+
       if (days) content += days + " days"
       if (hours || days) {
         if (days) content += ", "
@@ -199,3 +215,15 @@ export default {
   }
 };
 </script>
+
+<style lang="less" scoped>
+.fixed-details {
+  position: fixed;
+}
+
+@media only screen and (max-device-width : 480px) {
+  .fixed-details {
+    position: relative;
+  }
+}
+</style>

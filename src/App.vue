@@ -2,7 +2,7 @@
   <v-app>
     <Navbar />
 
-    <v-content class="blue-grey lighten-4">
+    <v-content class="blue-grey lighten-4" style="margin-top: 64px;">
       <router-view></router-view>
     </v-content>
   </v-app>
