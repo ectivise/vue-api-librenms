@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-app-bar fixed color="blue accent-4" flat dark>
-      <v-toolbar-title style="width: 300px" class="ml-0 pl-4">
+      <v-toolbar-title class="ml-0 pl-4">
         <router-link to="/" class="white--text font-weight-bold">
           Dashoard LibreNMS
         </router-link>

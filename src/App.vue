@@ -1,10 +1,12 @@
 <template>
   <v-app>
-    <Navbar />
+    <div class="blue-grey lighten-4">
+      <Navbar />
 
-    <v-content class="blue-grey lighten-4" style="margin-top: 64px;">
-      <router-view></router-view>
-    </v-content>
+      <v-content style="margin-top: 64px;">
+        <router-view></router-view>
+      </v-content>
+    </div>
   </v-app>
 </template>
 
