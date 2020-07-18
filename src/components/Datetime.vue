@@ -3,49 +3,27 @@
     <v-card flat class="mb-2">
       <v-row class="mx-3">
         <v-col cols="12" md="5" lg="5">
-          <v-menu
-            ref="menuDateStart"
-            v-model="menuDateStart"
-            :close-on-content-click="false"
-            transition="scale-transition"
-            offset-y
-            max-width="290px"
-            min-width="290px"
-          >
-            <template v-slot:activator="{ on }">
-              <v-text-field
-                v-model="dateStart"
-                label="Date Start"
-                persistent-hint
-                prepend-icon="mdi-calendar"
-                v-on="on"
-              ></v-text-field>
+          <v-datetime-picker label="Start Date" v-model="dateStart" date-format="MM/dd/yyyy" time-format="HH:mm" :time-picker-props="{ ampmInTitle: true }">
+            <template slot="dateIcon">
+              <v-icon>fas fa-calendar</v-icon>
             </template>
-            <v-date-picker v-model="dateStart" no-title @input="menuDateStart = false"></v-date-picker>
-          </v-menu>
+
+            <template slot="timeIcon">
+              <v-icon>fas fa-clock</v-icon>
+            </template>
+          </v-datetime-picker>
         </v-col>
 
         <v-col cols="12" md="5" lg="5">
-          <v-menu
-            ref="menuDateEnd"
-            v-model="menuDateEnd"
-            :close-on-content-click="false"
-            transition="scale-transition"
-            offset-y
-            max-width="290px"
-            min-width="290px"
-          >
-            <template v-slot:activator="{ on }">
-              <v-text-field
-                v-model="dateEnd"
-                label="Date End"
-                persistent-hint
-                prepend-icon="mdi-calendar"
-                v-on="on"
-              ></v-text-field>
+          <v-datetime-picker label="End Date" v-model="dateEnd" date-format="MM/dd/yyyy" time-format="HH:mm">
+            <template slot="dateIcon">
+              <v-icon>fas fa-calendar</v-icon>
             </template>
-            <v-date-picker v-model="dateEnd" no-title @input="menuDateEnd = false"></v-date-picker>
-          </v-menu>
+
+            <template slot="timeIcon">
+              <v-icon>fas fa-clock</v-icon>
+            </template>
+          </v-datetime-picker>
         </v-col>
 
         <v-col cols="12" md="2" lg="2" class="mt-3">
@@ -62,22 +40,19 @@
 export default {
   name: "DateTime",
 
-  props: ['dateStart', 'dateEnd'],
+  props: ["dateStart", "dateEnd"],
 
   data: () => ({
-    menuDateStart: false,
-    menuDateEnd: false,
-    dateFormattedStart: "",
-    dateFormattedEnd: "",
-    hasError: false
+    hasError: false,
   }),
 
   methods: {
     handleDateTime() {
-      const value = { "dateStart": this.dateStart, "dateEnd": this.dateEnd };
+      const value = { dateStart: this.dateStart, dateEnd: this.dateEnd }
 
-      this.$emit("handleDateTime", value);
-    }
-  }
+      this.$emit("handleDateTime", value)
+    },
+  },
 }
 </script>
+
