@@ -247,7 +247,7 @@ export default {
   position: fixed;
 }
 
-@media only screen and (max-device-width: 768px) {
+@media only screen and (max-device-width: 960px) {
   .fixed-details {
     position: relative;
   }
