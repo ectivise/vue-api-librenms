@@ -1,0 +1,23 @@
+<template>
+  <div>
+    <v-app-bar fixed color="blue accent-4" flat dark>
+      <v-toolbar-title class="ml-0 pl-4">
+        <router-link to="/" class="white--text font-weight-bold">
+          Dashoard LibreNMS
+        </router-link>
+      </v-toolbar-title>
+    </v-app-bar>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "Navbar"
+};
+</script>
+
+<style>
+a {
+  text-decoration: none;
+}
+</style>
