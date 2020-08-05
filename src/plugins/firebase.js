@@ -1,4 +1,4 @@
-import firebase from "firebase"
+import firebase from "firebase";
 
 const config = {
   apiKey: process.env.VUE_APP_FIREBASE_APPKEY,
@@ -8,6 +8,6 @@ const config = {
   storageBucket: process.env.VUE_APP_FIREBASE_STORAGE_BUCKET,
   messagingSenderId: process.env.VUE_APP_FIREBASE_MESSAGING_SENDERID,
   appId: process.env.VUE_APP_FIREBASE_APPID
-}
+};
 
-firebase.initializeApp(config)
+firebase.initializeApp(config);

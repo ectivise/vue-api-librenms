@@ -18,3 +18,4 @@ new Vue({
   fusionCharts,
   render: h => h(App)
 }).$mount("#app");
+
