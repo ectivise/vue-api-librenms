@@ -58,8 +58,11 @@ export default {
       firebase
         .auth()
         .signInWithEmailAndPassword(this.email, this.password)
-        .then((user) => console.log(user))
-        .then((error) => console.log(error));
+        .then((user) => {
+            sessionStorage.currentUser = user.user.uid;
+            this.$router.replace({ name: "home" });
+          })
+        .catch(error => alert(`Error ${error.message}`))
     }
   }
 };

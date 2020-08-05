@@ -85,6 +85,7 @@ export default {
           this.errors.push(e);
         });
     },
+
     groupingDevices(devices) {
       let _ = require("lodash");
       let result = _.groupBy(devices, function(n) {
