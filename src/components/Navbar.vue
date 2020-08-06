@@ -42,15 +42,15 @@
       v-model="drawer"
       fixed
       temporary
-      class="d-sm-none"
+      class="d-md-none"
     >
       <v-list-item>
-        <v-list-item-content>
+        <v-list-item-content v-model="user">
           <v-list-item-title class="title">
-            Username
+            {{ user.username }}
           </v-list-item-title>
           <v-list-item-subtitle>
-            email
+            {{ user.email }}
           </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
@@ -93,7 +93,7 @@ export default {
   name: "Navbar",
 
   data: () => ({
-    user: sessionStorage.currentUser,
+    user: JSON.parse(sessionStorage.currentUser),
     drawer: null,
     items: [
       { title: "Home", icon: "mdi-home", url: "/" },

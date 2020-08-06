@@ -21,4 +21,3 @@ const usersCollection = db.collection("users");
 
 // export utils/refs
 export { db, auth, usersCollection };
-

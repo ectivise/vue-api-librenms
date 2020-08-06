@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import { auth } from "@/plugins/firebase";
+import { auth, usersCollection } from "@/plugins/firebase";
 
 export default {
   name: "login",
@@ -57,9 +57,18 @@ export default {
     login: function() {
       auth
         .signInWithEmailAndPassword(this.email, this.password)
-        .then((user) => {
-          sessionStorage.currentUser = user.user;
-          window.location.href = "/";
+        .then(({ user }) => {
+          usersCollection
+            .doc(user.uid)
+            .get()
+            .then((doc) => {
+              if (doc.exists) {
+                sessionStorage.setItem("currentUser", JSON.stringify(doc.data()));
+                window.location.href = "/";
+              } else {
+                throw "No such document!";
+              }
+            });
         })
         .catch((error) => alert(`Error ${error.message}`));
     }

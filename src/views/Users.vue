@@ -5,14 +5,14 @@
         <template v-slot:default>
           <thead>
             <tr>
-              <th class="text-left">Name</th>
-              <th class="text-left">Calories</th>
+              <th class="text-left">Username</th>
+              <th class="text-left">Email</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="item in desserts" :key="item.name">
-              <td>{{ item.name }}</td>
-              <td>{{ item.calories }}</td>
+            <tr v-for="user in users" :key="user.username">
+              <td>{{ user.username }}</td>
+              <td>{{ user.email }}</td>
             </tr>
           </tbody>
         </template>
@@ -22,52 +22,34 @@
 </template>
 
 <script charset="utf-8">
+import { usersCollection } from "@/plugins/firebase";
+
 export default {
   name: "Users",
   data: () => ({
-    desserts: [
-      {
-        name: "Frozen Yogurt",
-        calories: 159
-      },
-      {
-        name: "Ice cream sandwich",
-        calories: 237
-      },
-      {
-        name: "Eclair",
-        calories: 262
-      },
-      {
-        name: "Cupcake",
-        calories: 305
-      },
-      {
-        name: "Gingerbread",
-        calories: 356
-      },
-      {
-        name: "Jelly bean",
-        calories: 375
-      },
-      {
-        name: "Lollipop",
-        calories: 392
-      },
-      {
-        name: "Honeycomb",
-        calories: 408
-      },
-      {
-        name: "Donut",
-        calories: 452
-      },
-      {
-        name: "KitKat",
-        calories: 518
-      }
-    ]
-  })
+    users: []
+  }),
+
+  mounted() {
+    this.fetchUsersCollection();
+  },
+
+  methods: {
+    fetchUsersCollection() {
+      usersCollection.onSnapshot((snapshot) => {
+        let usersArray = [];
+
+        snapshot.forEach((doc) => {
+          let user = doc.data();
+          user.id = doc.id;
+
+          usersArray.push(user);
+        });
+
+        this.users = usersArray;
+      });
+    }
+  }
 };
 </script>
 
