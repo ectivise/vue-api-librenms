@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import firebase from "firebase";
+import { auth } from "@/plugins/firebase";
 
 export default {
   name: "login",
@@ -55,14 +55,13 @@ export default {
 
   methods: {
     login: function() {
-      firebase
-        .auth()
+      auth
         .signInWithEmailAndPassword(this.email, this.password)
         .then((user) => {
-            sessionStorage.currentUser = user.user.uid;
-            this.$router.replace({ name: "home" });
-          })
-        .catch(error => alert(`Error ${error.message}`))
+          sessionStorage.currentUser = user.user.uid;
+          window.location.href = "/";
+        })
+        .catch((error) => alert(`Error ${error.message}`));
     }
   }
 };

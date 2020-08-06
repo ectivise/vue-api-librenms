@@ -9,7 +9,7 @@
 
       <v-spacer></v-spacer>
 
-      <div>
+      <div v-if="login">
         <router-link to="/" class="white--text font-weight-bold">
           <v-btn icon class="mr-8">
             <v-icon>mdi-home</v-icon>
@@ -22,7 +22,7 @@
           Users
         </v-btn>
 
-        <v-btn color="red" v-if="login" @click="logout">
+        <v-btn color="red" @click="logout">
           Logout
           <v-icon>mdi-logout</v-icon>
         </v-btn>
@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import firebase from "firebase"
+import { auth } from "@/plugins/firebase";
 
 export default {
   name: "Navbar",
@@ -45,10 +45,9 @@ export default {
 
   methods: {
     logout: function() {
-      firebase
-        .auth()
+      auth
         .signOut()
-        .then(() => this.$router.replace({ name: "login" }));
+        .then(() =>  window.location.href = "/login");
 
       sessionStorage.removeItem("currentUser");
     }
