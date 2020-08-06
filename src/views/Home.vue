@@ -8,14 +8,21 @@
         lg="3"
         class="mb-2 px-1"
         v-for="device in devices.server"
-        :key="`device_${device.hostname}`">
-        <router-link :to="{name: 'detail', params: {hostname: device.hostname}}">
-          <v-card>
-            <v-card-text>
-              <div>{{ device.hostname }}</div>
-              <p class="headline font-weight-bold text--primary">{{ device.sysName }}</p>
-            </v-card-text>
-          </v-card>
+        :key="`device_${device.hostname}`"
+      >
+        <router-link
+          :to="{ name: 'detail', params: { hostname: device.hostname } }"
+        >
+          <v-hover v-slot:default="{ hover }">
+            <v-card :elevation="hover ? 16 : 2">
+              <v-card-text>
+                <div>{{ device.hostname }}</div>
+                <p class="headline font-weight-bold text--primary">
+                  {{ device.sysName }}
+                </p>
+              </v-card-text>
+            </v-card>
+          </v-hover>
         </router-link>
       </v-col>
     </v-row>
@@ -28,14 +35,21 @@
         lg="3"
         class="mb-2 px-1"
         v-for="device in devices.network"
-        :key="`device_${device.hostname}`">
-        <router-link :to="{name: 'detail', params: {hostname: device.hostname}}">
-          <v-card>
-            <v-card-text>
-              <div>{{ device.hostname }}</div>
-              <p class="headline font-weight-bold text--primary">{{ device.sysName }}</p>
-            </v-card-text>
-          </v-card>
+        :key="`device_${device.hostname}`"
+      >
+        <router-link
+          :to="{ name: 'detail', params: { hostname: device.hostname } }"
+        >
+          <v-hover v-slot:default="{ hover }">
+            <v-card :elevation="hover ? 16 : 2">
+              <v-card-text>
+                <div>{{ device.hostname }}</div>
+                <p class="headline font-weight-bold text--primary">
+                  {{ device.sysName }}
+                </p>
+              </v-card-text>
+            </v-card>
+          </v-hover>
         </router-link>
       </v-col>
     </v-row>
@@ -48,14 +62,21 @@
         lg="3"
         class="mb-2 px-1"
         v-for="device in devices.wireless"
-        :key="`device_${device.hostname}`">
-        <router-link :to="{name: 'detail', params: {hostname: device.hostname}}">
-          <v-card>
-            <v-card-text>
-              <div>{{ device.hostname }}</div>
-              <p class="headline font-weight-bold text--primary">{{ device.sysName }}</p>
-            </v-card-text>
-          </v-card>
+        :key="`device_${device.hostname}`"
+      >
+        <router-link
+          :to="{ name: 'detail', params: { hostname: device.hostname } }"
+        >
+          <v-hover v-slot:default="{ hover }">
+            <v-card :elevation="hover ? 16 : 2">
+              <v-card-text>
+                <div>{{ device.hostname }}</div>
+                <p class="headline font-weight-bold text--primary">
+                  {{ device.sysName }}
+                </p>
+              </v-card-text>
+            </v-card>
+          </v-hover>
         </router-link>
       </v-col>
     </v-row>
@@ -76,12 +97,13 @@ export default {
 
   methods: {
     fetchDevices() {
-      this.axios.get("/devices")
-        .then(response => {
+      this.axios
+        .get("/devices")
+        .then((response) => {
           let data = response.data.devices;
           this.groupingDevices(data);
         })
-        .catch(e => {
+        .catch((e) => {
           this.errors.push(e);
         });
     },
@@ -92,7 +114,7 @@ export default {
         return n.type;
       });
 
-      this.devices= result;
+      this.devices = result;
     }
   }
 };

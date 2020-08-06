@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import Login from "@/views/Login.vue";
 import Home from "@/views/Home.vue";
 import Detail from "@/views/Detail.vue";
+import Users from "@/views/Users.vue";
 
 Vue.use(VueRouter);
 
@@ -26,19 +27,25 @@ const router = new VueRouter({
       name: "detail",
       meta: { requiresAuth: true },
       component: Detail
+    },
+    {
+      path: "/users",
+      name: "users",
+      meta: { requiresAuth: true },
+      component: Users
     }
   ]
 });
 
 router.beforeEach((to, from, next) => {
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
-  const currentUser = sessionStorage.currentUser != null;
+  const currentUser = sessionStorage.currentUser;
 
-  if (requiresAuth && currentUser == false) next({ name: "login" });
-  else if (!requiresAuth && currentUser == true) next({ name: "home" });
-  else next();
+  if (requiresAuth && currentUser == null) {
+    next({ name: "login" });
+  } else {
+    next();
+  }
 });
 
 export default router;
-
-

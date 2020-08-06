@@ -9,25 +9,52 @@
 
       <v-spacer></v-spacer>
 
-      <div v-if="login">
+      <div v-if="login" class="d-none d-md-flex d-lg-flex">
         <router-link to="/" class="white--text font-weight-bold">
-          <v-btn icon class="mr-8">
+          <v-btn outlined class="mr-2">
             <v-icon>mdi-home</v-icon>
             Home
           </v-btn>
         </router-link>
 
-        <v-btn icon class="mr-8">
-          <v-icon>mdi-account</v-icon>
-          Users
-        </v-btn>
+        <router-link to="/users" class="white--text font-weight-bold">
+          <v-btn outlined class="mr-2">
+            <v-icon>mdi-account</v-icon>
+            Users
+          </v-btn>
+        </router-link>
 
         <v-btn color="red" @click="logout">
           Logout
           <v-icon>mdi-logout</v-icon>
         </v-btn>
       </div>
+
+      <v-app-bar-nav-icon v-if="login" class="d-md-none" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
     </v-app-bar>
+
+    <v-navigation-drawer v-if="login" v-model="drawer" fixed temporary class="d-sm-none">
+      <v-list dense>
+        <v-list-item v-for="item in items" :key="item.title" :to="item.url" link>
+          <v-list-item-icon>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+
+      <template v-slot:append>
+        <div class="pa-2">
+          <v-btn block color="red white--text" @click="logout">
+            Logout
+            <v-icon>mdi-logout</v-icon>
+          </v-btn>
+        </div>
+      </template>
+    </v-navigation-drawer>
   </div>
 </template>
 
@@ -37,6 +64,14 @@ import { auth } from "@/plugins/firebase";
 export default {
   name: "Navbar",
 
+  data: () => ({
+    drawer: null,
+    items: [
+      { title: "Home", icon: "mdi-home", url: "/" },
+      { title: "Users", icon: "mdi-account", url: "/users" }
+    ]
+  }),
+
   computed: {
     login() {
       return sessionStorage.currentUser != null;
@@ -45,9 +80,7 @@ export default {
 
   methods: {
     logout: function() {
-      auth
-        .signOut()
-        .then(() =>  window.location.href = "/login");
+      auth.signOut().then(() => (window.location.href = "/login"));
 
       sessionStorage.removeItem("currentUser");
     }

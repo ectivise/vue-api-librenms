@@ -1,11 +1,11 @@
 <template>
-  <v-app>
-    <div class="blue-grey lighten-4">
+  <v-app id="app">
+    <div>
       <Navbar />
 
-      <v-content style="margin-top: 64px;">
+      <v-main style="margin-top: 64px;">
         <router-view></router-view>
-      </v-content>
+      </v-main>
     </div>
   </v-app>
 </template>
@@ -21,3 +21,10 @@ export default {
   }
 };
 </script>
+
+<style>
+#app {
+  background-color: var(--v-background-base);
+}
+</style>
+
