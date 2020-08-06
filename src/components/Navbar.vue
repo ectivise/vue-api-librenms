@@ -30,12 +30,40 @@
         </v-btn>
       </div>
 
-      <v-app-bar-nav-icon v-if="login" class="d-md-none" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon
+        v-if="login"
+        class="d-md-none"
+        @click.stop="drawer = !drawer"
+      ></v-app-bar-nav-icon>
     </v-app-bar>
 
-    <v-navigation-drawer v-if="login" v-model="drawer" fixed temporary class="d-sm-none">
+    <v-navigation-drawer
+      v-if="login"
+      v-model="drawer"
+      fixed
+      temporary
+      class="d-sm-none"
+    >
+      <v-list-item>
+        <v-list-item-content>
+          <v-list-item-title class="title">
+            Username
+          </v-list-item-title>
+          <v-list-item-subtitle>
+            email
+          </v-list-item-subtitle>
+        </v-list-item-content>
+      </v-list-item>
+
+      <v-divider></v-divider>
+
       <v-list dense>
-        <v-list-item v-for="item in items" :key="item.title" :to="item.url" link>
+        <v-list-item
+          v-for="item in items"
+          :key="item.title"
+          :to="item.url"
+          link
+        >
           <v-list-item-icon>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-icon>
@@ -65,6 +93,7 @@ export default {
   name: "Navbar",
 
   data: () => ({
+    user: sessionStorage.currentUser,
     drawer: null,
     items: [
       { title: "Home", icon: "mdi-home", url: "/" },
@@ -81,7 +110,6 @@ export default {
   methods: {
     logout: function() {
       auth.signOut().then(() => (window.location.href = "/login"));
-
       sessionStorage.removeItem("currentUser");
     }
   }

@@ -58,7 +58,7 @@ export default {
       auth
         .signInWithEmailAndPassword(this.email, this.password)
         .then((user) => {
-          sessionStorage.currentUser = user.user.uid;
+          sessionStorage.currentUser = user.user;
           window.location.href = "/";
         })
         .catch((error) => alert(`Error ${error.message}`));
