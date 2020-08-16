@@ -6,17 +6,18 @@
           <v-col cols="12" sm="12" md="6" lg="4">
             <v-card class="elevation-12">
               <v-toolbar color="primary" dark flat>
-                <v-toolbar-title>Login form</v-toolbar-title>
+                <v-toolbar-title class="jus">Login form</v-toolbar-title>
               </v-toolbar>
 
               <v-card-text>
                 <v-form>
                   <v-text-field
-                    label="Login"
+                    label="your@email.com"
                     name="login"
                     prepend-icon="mdi-account"
                     type="text"
                     v-model="email"
+                    :rules="emailRules" required
                   ></v-text-field>
 
                   <v-text-field
@@ -24,8 +25,11 @@
                     label="Password"
                     name="password"
                     prepend-icon="mdi-lock"
-                    type="password"
+                    :type="show ? 'text' : 'password'"
                     v-model="password"
+                    :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+                    @click:append="show = !show"
+                    :rules="passwordRules"
                   ></v-text-field>
                 </v-form>
               </v-card-text>
@@ -43,14 +47,25 @@
 </template>
 
 <script>
-import { auth, usersCollection } from "@/plugins/firebase";
-
+// import { auth, usersCollection } from "@/plugins/firebase";
+import { auth } from "@/plugins/firebase";
 export default {
   name: "login",
 
   data: () => ({
     email: "",
-    password: ""
+    password: "",
+    show: false,
+    emailRules: [
+            v => !!v || 'E-mail is required',
+            v => /.+@.+/.test(v) || 'E-mail must be valid'
+        ],
+    passwordRules: [
+            v => !!v || 'Password is required',
+            v =>
+                v.length >= 6 ||
+                'Password must be greater than 6 characters'
+        ]
   }),
 
   methods: {
@@ -58,21 +73,20 @@ export default {
       auth
         .signInWithEmailAndPassword(this.email, this.password)
         .then(({ user }) => {
-          usersCollection
-            .doc(user.uid)
-            .get()
-            .then((doc) => {
-              if (doc.exists) {
-                sessionStorage.setItem("currentUser", JSON.stringify(doc.data()));
+          // usersCollection
+            // .doc(user.uid)
+            // .get()
+            // .then((doc) => {
+            //   if (doc.exists) {
+                sessionStorage.setItem("currentUser", user.user);
                 window.location.href = "/";
-              } else {
-                throw "No such document!";
-              }
-            });
+            //   } else {
+            //     throw "No such document!";
+            //   }
+            // });
         })
         .catch((error) => alert(`Error ${error.message}`));
     }
   }
 };
 </script>
-
