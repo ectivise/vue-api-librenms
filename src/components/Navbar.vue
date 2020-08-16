@@ -17,12 +17,12 @@
           </v-btn>
         </router-link>
 
-        <router-link to="/users" class="white--text font-weight-bold">
+        <!-- <router-link to="/users" class="white--text font-weight-bold">
           <v-btn outlined class="mr-2">
             <v-icon>mdi-account</v-icon>
             Users
           </v-btn>
-        </router-link>
+        </router-link> -->
 
         <v-btn color="red" @click="logout">
           Logout
@@ -44,7 +44,7 @@
       temporary
       class="d-md-none"
     >
-      <v-list-item>
+      <!-- <v-list-item>
         <v-list-item-content v-model="user">
           <v-list-item-title class="title">
             {{ user.username }}
@@ -53,7 +53,7 @@
             {{ user.email }}
           </v-list-item-subtitle>
         </v-list-item-content>
-      </v-list-item>
+      </v-list-item> -->
 
       <v-divider></v-divider>
 
@@ -93,11 +93,12 @@ export default {
   name: "Navbar",
 
   data: () => ({
+    // user: JSON.parse(sessionStorage.currentUser),
     user: JSON.parse(sessionStorage.currentUser),
     drawer: null,
     items: [
       { title: "Home", icon: "mdi-home", url: "/" },
-      { title: "Users", icon: "mdi-account", url: "/users" }
+      // { title: "Users", icon: "mdi-account", url: "/users" }
     ]
   }),
 
@@ -121,4 +122,3 @@ a {
   text-decoration: none;
 }
 </style>
-
