@@ -17,22 +17,15 @@
           </v-btn>
         </router-link>
 
-        <!-- <router-link to="/users" class="white--text font-weight-bold">
-          <v-btn outlined class="mr-2">
-            <v-icon>mdi-account</v-icon>
-            Users
-          </v-btn>
-        </router-link> -->
-
         <v-btn color="red" @click="logout">
           Logout
           <v-icon>mdi-logout</v-icon>
         </v-btn>
       </div>
 
-      <v-app-bar-nav-icon
-        v-if="login"
-        class="d-md-none"
+    <v-app-bar-nav-icon
+      v-if="login"
+      class="d-md-none"
         @click.stop="drawer = !drawer"
       ></v-app-bar-nav-icon>
     </v-app-bar>
@@ -44,26 +37,13 @@
       temporary
       class="d-md-none"
     >
-      <!-- <v-list-item>
-        <v-list-item-content v-model="user">
-          <v-list-item-title class="title">
-            {{ user.username }}
-          </v-list-item-title>
-          <v-list-item-subtitle>
-            {{ user.email }}
-          </v-list-item-subtitle>
-        </v-list-item-content>
-      </v-list-item> -->
-
-      <v-divider></v-divider>
-
       <v-list dense>
         <v-list-item
           v-for="item in items"
-          :key="item.title"
-          :to="item.url"
-          link
-        >
+            :key="item.title"
+            :to="item.url"
+            link
+          >
           <v-list-item-icon>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-icon>
@@ -74,7 +54,7 @@
         </v-list-item>
       </v-list>
 
-      <template v-slot:append>
+      <template v-slot: append>
         <div class="pa-2">
           <v-btn block color="red white--text" @click="logout">
             Logout
@@ -83,22 +63,20 @@
         </div>
       </template>
     </v-navigation-drawer>
-  </div>
-</template>
+  </div >
+</template >
 
 <script>
-import { auth } from "@/plugins/firebase";
+import {auth} from "@/plugins/firebase";
 
 export default {
   name: "Navbar",
 
   data: () => ({
-    // user: JSON.parse(sessionStorage.currentUser),
-    user: JSON.parse(sessionStorage.currentUser),
-    drawer: null,
+    user: sessionStorage.currentUser,
+    drawer: false,
     items: [
-      { title: "Home", icon: "mdi-home", url: "/" },
-      // { title: "Users", icon: "mdi-account", url: "/users" }
+      { title: "Home", icon: "mdi-home", url: "/" }
     ]
   }),
 

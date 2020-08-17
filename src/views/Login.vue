@@ -47,8 +47,8 @@
 </template>
 
 <script>
-// import { auth, usersCollection } from "@/plugins/firebase";
 import { auth } from "@/plugins/firebase";
+
 export default {
   name: "login",
 
@@ -73,17 +73,8 @@ export default {
       auth
         .signInWithEmailAndPassword(this.email, this.password)
         .then(({ user }) => {
-          // usersCollection
-            // .doc(user.uid)
-            // .get()
-            // .then((doc) => {
-            //   if (doc.exists) {
-                sessionStorage.setItem("currentUser", user.user);
-                window.location.href = "/";
-            //   } else {
-            //     throw "No such document!";
-            //   }
-            // });
+          sessionStorage.setItem("currentUser", user.uid);
+          window.location.href = "/";
         })
         .catch((error) => alert(`Error ${error.message}`));
     }
